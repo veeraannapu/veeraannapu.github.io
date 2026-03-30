@@ -435,9 +435,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 /* ══════════════════════════════════════════
    SCROLL ANIMATIONS
 ══════════════════════════════════════════ */
-[data-anim] { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
-[data-anim="left"]  { transform: translateX(-32px); }
-[data-anim="right"] { transform: translateX(32px); }
+[data-anim] { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.7s ease; }
+.js-ready [data-anim] { opacity: 0; transform: translateY(32px); }
+.js-ready [data-anim="left"]  { transform: translateX(-32px); }
+.js-ready [data-anim="right"] { transform: translateX(32px); }
 [data-anim].show { opacity: 1; transform: translate(0); }
 
 /* ══════════════════════════════════════════
