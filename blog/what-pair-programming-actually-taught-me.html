@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>What Pair Programming Actually Taught Me | Veera Annapureddy</title>
+  <meta name="description" content="I started pair programming in mid-2023 using Tuple. Here is what it actually taught me — when it works, when it doesn't, and what changes when you do it consistently."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F1ZBLVLDTH"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-F1ZBLVLDTH');</script>
+  <style>
+    :root{--primary:#6366f1;--primary-light:#818cf8;--accent:#22d3ee;--bg:#0a0a0f;--bg-card:#111118;--bg-elevated:#16161f;--border:rgba(99,102,241,0.15);--border-hover:rgba(99,102,241,0.4);--text:#e2e8f0;--text-muted:#94a3b8;--text-dim:#475569;--font-sans:'Inter',system-ui,sans-serif;--font-mono:'Fira Code',monospace;--radius:12px;--shadow-glow:0 0 40px rgba(99,102,241,0.15);--transition:0.3s cubic-bezier(0.4,0,0.2,1);}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+    body{font-family:var(--font-sans);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;}
+    a{text-decoration:none;color:inherit;}
+    ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--primary);border-radius:99px;}
+    .navbar{position:fixed;top:0;left:0;right:0;height:72px;z-index:1000;background:rgba(10,10,15,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+    .nav-container{max-width:1200px;margin:0 auto;padding:0 24px;height:100%;display:flex;align-items:center;justify-content:space-between;}
+    .nav-logo{font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--text);}.nav-logo:hover{color:var(--primary-light);}
+    .logo-bracket{color:var(--primary);}
+    .nav-back{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-size:0.88rem;font-weight:500;transition:var(--transition);padding:8px 14px;border-radius:6px;border:1px solid var(--border);}
+    .nav-back:hover{color:var(--primary-light);border-color:var(--primary);background:rgba(99,102,241,0.08);}
+    .post-hero{padding:120px 24px 60px;max-width:780px;margin:0 auto;}
+    .post-breadcrumb{display:flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:0.75rem;color:var(--text-dim);margin-bottom:24px;}
+    .post-breadcrumb a{color:var(--primary-light);}.post-breadcrumb a:hover{text-decoration:underline;}
+    .post-cat{font-family:var(--font-mono);font-size:0.78rem;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:16px;display:flex;gap:12px;flex-wrap:wrap;}
+    .post-cat span{background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.2);padding:3px 10px;border-radius:4px;}
+    .post-title{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-0.03em;line-height:1.2;margin-bottom:20px;}
+    .post-meta{display:flex;align-items:center;gap:16px;flex-wrap:wrap;color:var(--text-dim);font-size:0.84rem;font-family:var(--font-mono);margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border);}
+    .post-meta-item{display:flex;align-items:center;gap:6px;}
+    .post-author{display:flex;align-items:center;gap:10px;}
+    .author-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:700;color:#fff;flex-shrink:0;}
+    .post-body{max-width:780px;margin:0 auto;padding:0 24px 80px;}
+    .post-body p{color:var(--text-muted);margin-bottom:1.5rem;font-size:1.02rem;line-height:1.85;}
+    .post-body h2{font-size:1.5rem;font-weight:800;color:var(--text);margin:2.8rem 0 1rem;letter-spacing:-0.02em;padding-bottom:10px;border-bottom:1px solid var(--border);}
+    .post-body h3{font-size:1.1rem;font-weight:700;color:var(--primary-light);margin:2rem 0 0.75rem;}
+    .post-body strong{color:var(--text);font-weight:600;}
+    .post-body ul,.post-body ol{color:var(--text-muted);padding-left:1.5rem;margin-bottom:1.5rem;}
+    .post-body li{margin-bottom:0.5rem;font-size:1.02rem;line-height:1.75;}
+    .post-body li::marker{color:var(--primary);}
+    .post-body hr{border:none;border-top:1px solid var(--border);margin:2.5rem 0;}
+    .callout{background:var(--bg-elevated);border-left:3px solid var(--primary);border-radius:0 var(--radius) var(--radius) 0;padding:16px 20px;margin:1.8rem 0;}
+    .callout p{margin-bottom:0;color:var(--text-muted);}
+    .callout.tip{border-color:var(--accent);}
+    .callout-label{font-family:var(--font-mono);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;}
+    .callout.tip .callout-label{color:var(--accent);}
+    .scenario-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1.5rem 0 2rem;}
+    .scenario-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;}
+    .scenario-card.works{border-top:2px solid #86efac;}.scenario-card.skip{border-top:2px solid var(--text-dim);}
+    .scenario-label{font-family:var(--font-mono);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;}
+    .scenario-card.works .scenario-label{color:#86efac;}.scenario-card.skip .scenario-label{color:var(--text-dim);}
+    .scenario-card ul{padding-left:1rem;margin:0;}.scenario-card li{font-size:0.82rem;color:var(--text-muted);margin-bottom:6px;line-height:1.5;}
+    .lesson-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;display:flex;gap:14px;}
+    .lesson-num{font-family:var(--font-mono);font-size:0.78rem;font-weight:700;color:var(--primary-light);background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .lesson-title{font-weight:700;font-size:0.92rem;color:var(--text);margin-bottom:5px;}
+    .lesson-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.65;}
+    .tool-highlight{background:var(--bg-card);border:1px solid rgba(99,102,241,0.3);border-radius:var(--radius);padding:20px 22px;margin:1.5rem 0;}
+    .tool-highlight-title{font-weight:700;font-size:0.95rem;color:var(--primary-light);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+    .tool-highlight p{margin-bottom:0;font-size:0.88rem;color:var(--text-muted);line-height:1.7;}
+    .author-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-top:48px;display:flex;gap:20px;align-items:flex-start;}
+    .author-card-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:#fff;flex-shrink:0;}
+    .author-card-name{font-weight:700;font-size:1rem;margin-bottom:4px;}
+    .author-card-bio{font-size:0.88rem;color:var(--text-muted);line-height:1.7;margin-bottom:12px;}
+    .author-links{display:flex;gap:12px;flex-wrap:wrap;}
+    .author-link{font-size:0.8rem;color:var(--primary-light);display:flex;align-items:center;gap:5px;border:1px solid var(--border);padding:4px 12px;border-radius:6px;transition:var(--transition);}
+    .author-link:hover{border-color:var(--primary);background:rgba(99,102,241,0.08);}
+    .more-posts{max-width:780px;margin:0 auto;padding:0 24px 80px;}
+    .more-title{font-family:var(--font-mono);font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-dim);margin-bottom:16px;}
+    .more-grid{display:flex;flex-direction:column;gap:10px;}
+    .more-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:16px;transition:var(--transition);}
+    .more-card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-glow);}
+    .more-card-cat{font-family:var(--font-mono);font-size:0.68rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;}
+    .more-card-title{font-size:0.88rem;font-weight:700;color:var(--text);}
+    .more-card-arrow{color:var(--text-dim);font-size:1rem;flex-shrink:0;transition:var(--transition);}
+    .more-card:hover .more-card-arrow{color:var(--primary-light);transform:translateX(4px);}
+    .footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 24px;text-align:center;}
+    .footer-text{font-size:0.85rem;color:var(--text-dim);}
+    .footer-text strong{color:var(--text-muted);}
+    @media(max-width:600px){.post-hero{padding:100px 18px 40px;}.post-body{padding:0 18px 60px;}.author-card{flex-direction:column;}.scenario-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="../index.html" class="nav-logo"><span class="logo-bracket">&lt;</span>VA<span class="logo-bracket">/&gt;</span></a>
+    <a href="../index.html#blog" class="nav-back"><i class="fas fa-arrow-left"></i> Back to Blog</a>
+  </div>
+</nav>
+
+<div class="post-hero">
+  <div class="post-breadcrumb">
+    <a href="../index.html">Home</a> <span>/</span>
+    <a href="../index.html#blog">Blog</a> <span>/</span>
+    <span>Pair Programming</span>
+  </div>
+  <div class="post-cat">
+    <span>Engineering Culture</span><span>Mentoring</span><span>Agile</span>
+  </div>
+  <h1 class="post-title">What Pair Programming Actually Taught Me</h1>
+  <div class="post-meta">
+    <div class="post-author"><div class="author-avatar">VA</div><span style="color:var(--text-muted);">Veera Annapureddy</span></div>
+    <span style="color:var(--border-hover);">·</span>
+    <div class="post-meta-item"><i class="far fa-calendar"></i> May 2025</div>
+    <div class="post-meta-item"><i class="far fa-clock"></i> 7 min read</div>
+  </div>
+</div>
+
+<article class="post-body">
+
+<p>I started doing pair programming consistently in mid-2023. Before that, I'd pulled colleagues in for specific debugging sessions here and there — but deliberate, regular pairing as part of how the team actually works was new to me.</p>
+
+<p>A couple of years in, it's changed how I think about writing software more than I expected. This is what I actually learned from doing it — not the theory, but what shifts when you pair regularly and do it with intention.</p>
+
+<hr/>
+
+<h2>How We Actually Do It</h2>
+
+<p>We pair remotely using <strong>Tuple</strong>. If you haven't used it, it's a tool built specifically for remote pair programming — low latency, proper remote control so both people can actually type, and a fast connection flow that removes most of the friction from starting a session.</p>
+
+<div class="tool-highlight">
+  <div class="tool-highlight-title">🔗 Why Tuple works well for remote pairing</div>
+  <p>Purpose-built for pairing — the remote control is genuinely snappy, meaning the other person can reach in and type without waiting. That small thing changes the dynamic significantly. Both people stay active in the session rather than one watching and one driving the whole time.</p>
+</div>
+
+<p>Sessions run 60–90 minutes with a break. We switch driver and navigator every 20–30 minutes. Sometimes we do shorter focused sessions — working through an unfamiliar part of the codebase, a tricky debugging problem, or a design discussion before writing anything.</p>
+
+<hr/>
+
+<h2>The Roles</h2>
+
+<p>The <strong>driver</strong> holds the keyboard and writes the code. The <strong>navigator</strong> watches, thinks ahead, catches mistakes, and asks questions. You switch regularly.</p>
+
+<p>The thing I didn't understand at first: <strong>the navigator role is where most of the learning happens</strong>. When you're driving, you're executing — in the details, making the thing work. When you're navigating, you have to follow someone else's reasoning in real time without controlling it. That's harder than it sounds, and it builds a different kind of understanding than writing the code yourself does.</p>
+
+<hr/>
+
+<h2>When It Works and When to Skip It</h2>
+
+<div class="scenario-grid">
+  <div class="scenario-card works">
+    <div class="scenario-label">✅ Good fit for pairing</div>
+    <ul>
+      <li>Complex logic with many edge cases</li>
+      <li>Onboarding someone to an unfamiliar codebase</li>
+      <li>Debugging something neither person fully understands</li>
+      <li>Designing a new API or data model</li>
+      <li>Code touching security, payments, or data integrity</li>
+      <li>Anything where getting it wrong has real consequences</li>
+    </ul>
+  </div>
+  <div class="scenario-card skip">
+    <div class="scenario-label">⬜ Skip pairing here</div>
+    <ul>
+      <li>Mechanical tasks — boilerplate, config, formatting</li>
+      <li>Research and exploration — let one person dig first</li>
+      <li>Writing docs or tests for finished features</li>
+      <li>Work that needs deep single-person focus</li>
+      <li>Routine dependency updates</li>
+    </ul>
+  </div>
+</div>
+
+<p>Pairing is a tool, not a religion. Applying it to everything is as wrong as applying it to nothing. The value comes from being deliberate about when to use it.</p>
+
+<hr/>
+
+<h2>What I Actually Learned</h2>
+
+<div class="lesson-item">
+  <div class="lesson-num">1</div>
+  <div>
+    <div class="lesson-title">You learn how other people think, not just what they know</div>
+    <div class="lesson-desc">Reading someone's code tells you what they decided. Watching them write code tells you how they decide. You see the alternatives they considered and dropped. You see how they navigate uncertainty. That mental model — their decision process — is what you can't get from a code review or a doc.</div>
+  </div>
+</div>
+
+<div class="lesson-item">
+  <div class="lesson-num">2</div>
+  <div>
+    <div class="lesson-title">You find out what you actually know vs what you think you know</div>
+    <div class="lesson-desc">There's a specific uncomfortable moment when you're explaining something mid-session and realise mid-sentence that you don't understand it as well as you thought. That discomfort is useful. You can't fake understanding when you have to explain it out loud in real time to someone else.</div>
+  </div>
+</div>
+
+<div class="lesson-item">
+  <div class="lesson-num">3</div>
+  <div>
+    <div class="lesson-title">The navigator catches bugs the driver doesn't see</div>
+    <div class="lesson-desc">When you write code, you read it through the intention in your head — you see what you meant to write. A navigator has no such intention. They read what's actually there. The null check you meant to add. The off-by-one your mental model glossed over. These surface quickly when someone else is watching without your assumptions.</div>
+  </div>
+</div>
+
+<div class="lesson-item">
+  <div class="lesson-num">4</div>
+  <div>
+    <div class="lesson-title">Design conversations happen earlier</div>
+    <div class="lesson-desc">Before you write a function together, you have to agree on what it does. That conversation — "what should this return?", "what are the failure cases?", "do we validate here or upstream?" — produces better design than one person deciding alone and another reviewing after the fact. The questions come when they're cheaper to answer.</div>
+  </div>
+</div>
+
+<div class="lesson-item">
+  <div class="lesson-num">5</div>
+  <div>
+    <div class="lesson-title">Onboarding gets faster in a way documentation can't replicate</div>
+    <div class="lesson-desc">When someone new pairs with an experienced engineer from day one, they absorb context that would take months from docs alone. Not just the code — the unwritten rules. Why this service is structured the way it is. Which parts are fragile. Which patterns the team has moved away from. That knowledge transfers during pairing in hours, not weeks.</div>
+  </div>
+</div>
+
+<hr/>
+
+<h2>What Makes It Go Wrong</h2>
+
+<h3>The navigator goes passive</h3>
+<p>The driver moves fast, and the navigator starts just watching. This usually happens when the navigator feels unsure and doesn't want to slow things down by asking questions. That's the wrong instinct. If you're navigating and you've stopped actively following what's happening — slow down, say so, ask. That's literally the job.</p>
+
+<h3>One person dominates the whole session</h3>
+<p>If one person drives for two hours and the other hasn't typed a line, it's not pairing — it's supervised coding. The rotation matters. Switching is what keeps both people engaged and prevents one person from burning out.</p>
+
+<h3>Treating it as a substitute for documentation</h3>
+<p>Pairing transfers knowledge between two people in the room right now. It does nothing for the person who joins in six months. If something was decided during a session that isn't obvious from the code — write it in a comment before the session ends. Pairing is for learning and building. Documentation is for remembering.</p>
+
+<div class="callout tip">
+  <div class="callout-label">The rule that sticks</div>
+  <p>If we made a decision during pairing that a future reader of this code wouldn't understand from the code alone — it goes into a comment before we close the session.</p>
+</div>
+
+<hr/>
+
+<h2>What I'd Tell Someone Starting Out</h2>
+
+<p>When I first started pairing regularly, I spent energy worrying about looking slow or asking obvious questions. That was the wrong thing to focus on. The questions that feel obvious to you are often the ones that expose gaps in how the problem has been framed — or gaps in your own understanding that are worth surfacing early.</p>
+
+<p>If you're the more experienced person in the pair: resist the urge to take over when the other person is struggling. The struggle is where the learning is. Your job is to keep them productive in it, not rescue them from it. Ask questions before giving answers. Let them drive more than feels comfortable.</p>
+
+<p>The best sessions I've had didn't feel like teaching. They felt like two people genuinely thinking through something together — even when there was a significant experience gap. That's the version worth aiming for.</p>
+
+<div class="author-card">
+  <div class="author-card-avatar">VA</div>
+  <div>
+    <div class="author-card-name">Veera Annapureddy</div>
+    <div class="author-card-bio">Software Engineer working on distributed order systems and event-driven pipelines. Pair programming regularly using Tuple since mid-2023. M.S. Computer Science, Columbus State University.</div>
+    <div class="author-links">
+      <a class="author-link" href="https://linkedin.com/in/veeraannapureddy" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a class="author-link" href="../index.html"><i class="fas fa-home"></i> Portfolio</a>
+      <a class="author-link" href="../index.html#blog"><i class="fas fa-pen"></i> More Posts</a>
+    </div>
+  </div>
+</div>
+</article>
+
+<div class="more-posts">
+  <div class="more-title">Continue Reading</div>
+  <div class="more-grid">
+    <a class="more-card" href="engineering-sensible-defaults.html">
+      <div><div class="more-card-cat">Engineering Culture · Agile</div><div class="more-card-title">Sensible Defaults: The Engineering Habits That Changed How My Team Works</div></div>
+      <span class="more-card-arrow">→</span>
+    </a>
+    <a class="more-card" href="removing-prod-approval-gates.html">
+      <div><div class="more-card-cat">CI/CD · Continuous Delivery</div><div class="more-card-title">Why I Removed the PROD Manual Approval Gate — And What Replaced It</div></div>
+      <span class="more-card-arrow">→</span>
+    </a>
+  </div>
+</div>
+
+<footer class="footer">
+  <p class="footer-text">Written by <strong>Veera Annapureddy</strong> · <a href="../index.html" style="color:var(--primary-light)">veeraannapu.vercel.app</a></p>
+</footer>
+</body>
+</html>

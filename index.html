@@ -312,6 +312,37 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .footer-links a { color: var(--text-dim); font-size: 1rem; transition: var(--transition); }
 .footer-links a:hover { color: var(--primary-light); transform: translateY(-2px); }
 
+/* ── BLOG ── */
+.blog { background: var(--bg); }
+.blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.blog-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; transition: var(--transition); display: flex; flex-direction: column; position: relative; }
+.blog-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--primary), var(--accent)); opacity: 0; transition: var(--transition); }
+.blog-card:hover { border-color: var(--border-hover); transform: translateY(-4px); box-shadow: var(--shadow), var(--shadow-glow); }
+.blog-card:hover::before { opacity: 1; }
+.blog-card-inner { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+.blog-tag-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.blog-cat { font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
+.blog-status { font-family: var(--font-mono); font-size: 0.65rem; padding: 2px 8px; border-radius: 4px; font-weight: 600; }
+.blog-status.published { background: rgba(34,211,238,0.1); border: 1px solid rgba(34,211,238,0.25); color: var(--accent); }
+.blog-status.soon { background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); color: var(--primary-light); }
+.blog-status.draft { background: rgba(71,85,105,0.15); border: 1px solid rgba(71,85,105,0.25); color: var(--text-dim); }
+.blog-title { font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.45; margin-bottom: 10px; }
+.blog-excerpt { font-size: 0.83rem; color: var(--text-muted); line-height: 1.7; flex: 1; margin-bottom: 18px; }
+.blog-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid var(--border); margin-top: auto; }
+.blog-meta { display: flex; align-items: center; gap: 8px; }
+.blog-date { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); }
+.blog-read { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim); }
+.blog-dot { color: var(--text-dim); font-size: 0.5rem; }
+.blog-link { font-size: 0.85rem; color: var(--text-dim); transition: var(--transition); text-decoration: none; }
+.blog-card:hover .blog-link { color: var(--primary-light); transform: translateX(4px); }
+.blog-card.soon { opacity: 0.6; cursor: default; }
+.blog-card.soon:hover { transform: none; box-shadow: none; border-color: var(--border); }
+.blog-card.soon::before { display: none; }
+.blog-note { text-align: center; margin-top: 40px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-dim); }
+.blog-note span { color: var(--primary-light); }
+@media(max-width: 1024px) { .blog-grid { grid-template-columns: repeat(2,1fr); } }
+@media(max-width: 600px) { .blog-grid { grid-template-columns: 1fr; } }
+
 /* ── SCROLL ANIMATIONS ── */
 [data-anim] { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.7s ease; }
 .js-ready [data-anim] { opacity: 0; transform: translateY(32px); }
@@ -358,6 +389,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <li><a href="#skills">Skills</a></li>
       <li><a href="#experience">Experience</a></li>
       <li><a href="#education">Education</a></li>
+      <li><a href="#blog">Blog</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
@@ -686,11 +718,147 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </div>
 </section>
 
+<!-- ── BLOG ── -->
+<section class="section blog" id="blog">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag">06. Writing</span>
+      <h2 class="section-title">Blog</h2>
+    </div>
+    <div class="blog-grid">
+
+      <!-- Card 1 — PUBLISHED (Kafka) -->
+      <a class="blog-card" href="blog/kafka-real-time-order-updates.html" data-anim style="text-decoration:none;cursor:pointer;">
+        <div class="blog-card-inner">
+          <div class="blog-tag-row">
+            <span class="blog-cat">Kafka · Event-Driven</span>
+            <span class="blog-status published">Published</span>
+          </div>
+          <div class="blog-title">How Kafka Powers Real-Time Order Updates at Scale</div>
+          <div class="blog-excerpt">A practical look at streaming order events through Kafka — event design, consumer groups, at-least-once delivery, dead letter topics, and lessons from production incidents.</div>
+          <div class="blog-footer">
+            <div class="blog-meta">
+              <span class="blog-date">May 2025</span>
+              <span class="blog-dot">●</span>
+              <span class="blog-read">8 min read</span>
+            </div>
+            <span class="blog-link">→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2 — PUBLISHED (Medallion) -->
+      <a class="blog-card" href="blog/medallion-architecture-raw-bronze-silver-gold.html" data-anim style="text-decoration:none;cursor:pointer;">
+        <div class="blog-card-inner">
+          <div class="blog-tag-row">
+            <span class="blog-cat">Databricks · Architecture</span>
+            <span class="blog-status published">Published</span>
+          </div>
+          <div class="blog-title">Medallion Architecture Explained: Raw → Bronze → Silver → Gold</div>
+          <div class="blog-excerpt">What the medallion lakehouse pattern actually looks like in practice — how we structure data layers in Databricks, when each layer gets written, and 5 common mistakes to avoid.</div>
+          <div class="blog-footer">
+            <div class="blog-meta">
+              <span class="blog-date">May 2025</span>
+              <span class="blog-dot">●</span>
+              <span class="blog-read">6 min read</span>
+            </div>
+            <span class="blog-link">→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3 — PUBLISHED (Iceberg) -->
+      <a class="blog-card" href="blog/migrating-delta-lake-to-apache-iceberg.html" data-anim style="text-decoration:none;cursor:pointer;">
+        <div class="blog-card-inner">
+          <div class="blog-tag-row">
+            <span class="blog-cat">Apache Iceberg · Delta Lake</span>
+            <span class="blog-status published">Published</span>
+          </div>
+          <div class="blog-title">Migrating from Delta Lake to Apache Iceberg — What We Learned</div>
+          <div class="blog-excerpt">Why we migrated, how we did it without downtime, what broke, and whether it was worth it. A candid engineering retrospective from someone who ran the migration end-to-end.</div>
+          <div class="blog-footer">
+            <div class="blog-meta">
+              <span class="blog-date">May 2025</span>
+              <span class="blog-dot">●</span>
+              <span class="blog-read">10 min read</span>
+            </div>
+            <span class="blog-link">→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 4 — PUBLISHED (Sensible Defaults) -->
+      <a class="blog-card" href="blog/engineering-sensible-defaults.html" data-anim style="text-decoration:none;cursor:pointer;">
+        <div class="blog-card-inner">
+          <div class="blog-tag-row">
+            <span class="blog-cat">Engineering Culture · Agile</span>
+            <span class="blog-status published">Published</span>
+          </div>
+          <div class="blog-title">Sensible Defaults: The Engineering Habits That Changed How My Team Works</div>
+          <div class="blog-excerpt">The Crawl → Walk → Run journey through small stories, pair programming, trunk-based development, TDD, and continuous delivery — and why the order matters.</div>
+          <div class="blog-footer">
+            <div class="blog-meta">
+              <span class="blog-date">May 2025</span>
+              <span class="blog-dot">●</span>
+              <span class="blog-read">6 min read</span>
+            </div>
+            <span class="blog-link">→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 5 — PUBLISHED (Pair Programming) -->
+      <a class="blog-card" href="blog/what-pair-programming-actually-taught-me.html" data-anim style="text-decoration:none;cursor:pointer;">
+        <div class="blog-card-inner">
+          <div class="blog-tag-row">
+            <span class="blog-cat">Engineering Culture · Mentoring</span>
+            <span class="blog-status published">Published</span>
+          </div>
+          <div class="blog-title">What Pair Programming Actually Taught Me</div>
+          <div class="blog-excerpt">I started pairing in mid-2023 using Tuple. Two years in, here's what actually changed — how I think, how I debug, how I onboard people, and when pairing works vs when to skip it.</div>
+          <div class="blog-footer">
+            <div class="blog-meta">
+              <span class="blog-date">May 2025</span>
+              <span class="blog-dot">●</span>
+              <span class="blog-read">7 min read</span>
+            </div>
+            <span class="blog-link">→</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 6 — PUBLISHED (CI/CD Approval Gates) -->
+      <a class="blog-card" href="blog/removing-prod-approval-gates.html" data-anim style="text-decoration:none;cursor:pointer;">
+        <div class="blog-card-inner">
+          <div class="blog-tag-row">
+            <span class="blog-cat">CI/CD · Continuous Delivery</span>
+            <span class="blog-status published">Published</span>
+          </div>
+          <div class="blog-title">Why I Removed the PROD Manual Approval Gate — And What Replaced It</div>
+          <div class="blog-excerpt">Manual gates feel safe. They often aren't. Why I proposed removing ours, what I put in place instead — feature toggles, automated rollbacks, real-time monitoring — and what happened after.</div>
+          <div class="blog-footer">
+            <div class="blog-meta">
+              <span class="blog-date">May 2025</span>
+              <span class="blog-dot">●</span>
+              <span class="blog-read">8 min read</span>
+            </div>
+            <span class="blog-link">→</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+    <div class="blog-note">
+      Writing in progress — follow me on <span>LinkedIn</span> to get notified when posts go live.
+    </div>
+  </div>
+</section>
+
 <!-- ── CONTACT ── -->
 <section class="section contact" id="contact">
   <div class="container">
     <div class="section-header">
-      <span class="section-tag">05. Contact</span>
+      <span class="section-tag">07. Contact</span>
       <h2 class="section-title">Get In Touch</h2>
     </div>
     <div class="contact-wrap" data-anim>
